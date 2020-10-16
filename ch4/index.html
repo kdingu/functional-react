@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pure React</title>
+  </head>
+  <body>
+    <!-- Target Container -->
+    <div id="react-container"></div>
+    <div id="react-container2"></div>
+    <div id="react-container3"></div>
+    <div id="react-container4"></div>
+
+    <!-- React Library & React DOM-->
+    <script src="https://fb.me/react-15.1.0.js"></script>
+    <script src="https://fb.me/react-dom-15.1.0.js"></script>
+
+    <script>
+      // Pure React and JavaScript Code
+
+      // es6 class components
+      //   class IngredientsList extends React.Component {
+      //     renderListItem(ingredient, key) {
+      //       return React.createElement("li", { key }, ingredient);
+      //     }
+      //     render() {
+      //       return React.createElement(
+      //         "ul",
+      //         { className: "ingredients-list" },
+      //         this.props.items.map(this.renderListItem)
+      //       );
+      //     }
+      //   }
+
+      // stateless function components with react factory
+      const statelesComponent = (p) =>
+        React.DOM.ul(
+          { className: "ingredients-class" },
+          p.map((el, i) =>
+            React.DOM.li({ className: "ingredient", key: i }, el)
+          )
+        );
+
+      // generate dummy list entries
+      const items = (size, list = new Array(), i = 0) => {
+        list.push(`Ingredient ${i + 1}`);
+        const a = list;
+        const ii = i + 1;
+
+        if (list.length < size) {
+          items(size, a, ii);
+        }
+
+        return list;
+      };
+
+      const target = document.querySelector("#react-container");
+      ReactDOM.render(statelesComponent(items(20)), target);
+
+      // using react factory to create element
+      const el = React.DOM.h3(null, "React Factory element");
+
+      const target2 = document.querySelector("#react-container2");
+      ReactDOM.render(el, target2);
+
+      // create custom react factories
+      const { render } = ReactDOM;
+      const IngredientsList = ({ items }) => {
+        return React.createElement(
+          "ul",
+          { className: "customFactory-list" },
+          items.map((el, key) =>
+            React.createElement(
+              "li",
+              { className: "customFactory-listItem", key },
+              el
+            )
+          )
+        );
+      };
+
+      const Ingredients = React.createFactory(IngredientsList);
+
+      const target3 = document.querySelector("#react-container3");
+      render(Ingredients({ items: items(5) }), target3);
+    </script>
+  </body>
+</html>
