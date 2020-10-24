@@ -1,7 +1,12 @@
 import Color from "./Color";
 import PropTypes from "prop-types";
 
-const ColorList = ({ colors = [], onRate = (f) => f, onDelete = (f) => f }) => (
+const ColorList = ({
+  colors = [],
+  onRate = (f) => f,
+  onDelete = (f) => f,
+  onChange = (f) => f,
+}) => (
   <div className="color-list">
     {/* display each color */}
     {colors.length <= 0 ? (
@@ -13,6 +18,7 @@ const ColorList = ({ colors = [], onRate = (f) => f, onDelete = (f) => f }) => (
           {...clr}
           onRate={(rating) => onRate(clr.id, rating)}
           onDelete={() => onDelete(clr.id)}
+          onChange={(title) => onChange(clr.id, title)}
         />
       ))
     )}

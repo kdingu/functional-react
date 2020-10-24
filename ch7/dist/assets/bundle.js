@@ -29426,6 +29426,7 @@ var App = function (_React$Component) {
     _this.addColor = _this.addColor.bind(_this);
     _this.deleteColor = _this.deleteColor.bind(_this);
     _this.rateColor = _this.rateColor.bind(_this);
+    _this.updateTitle = _this.updateTitle.bind(_this);
     return _this;
   }
 
@@ -29463,6 +29464,11 @@ var App = function (_React$Component) {
       this.setState({ colors: colors });
     }
   }, {
+    key: "updateTitle",
+    value: function updateTitle(id, title) {
+      console.log(id, title);
+    }
+  }, {
     key: "render",
     value: function render() {
       var colors = this.state.colors;
@@ -29474,7 +29480,8 @@ var App = function (_React$Component) {
         _react2.default.createElement(_ColorList2.default, {
           colors: colors,
           onRate: this.rateColor,
-          onDelete: this.deleteColor
+          onDelete: this.deleteColor,
+          onChange: this.updateTitle
         })
       );
     }
@@ -29514,7 +29521,11 @@ var ColorList = function ColorList(_ref) {
       _ref$onDelete = _ref.onDelete,
       _onDelete = _ref$onDelete === undefined ? function (f) {
     return f;
-  } : _ref$onDelete;
+  } : _ref$onDelete,
+      _ref$onChange = _ref.onChange,
+      _onChange = _ref$onChange === undefined ? function (f) {
+    return f;
+  } : _ref$onChange;
 
   return React.createElement(
     "div",
@@ -29532,6 +29543,9 @@ var ColorList = function ColorList(_ref) {
         },
         onDelete: function onDelete() {
           return _onDelete(clr.id);
+        },
+        onChange: function onChange(title) {
+          return _onChange(clr.id, title);
         }
       }));
     })
@@ -29551,6 +29565,8 @@ module.exports = ColorList;
 "use strict";
 
 
+var _react = __webpack_require__(1);
+
 var _StarRating = __webpack_require__(27);
 
 var _StarRating2 = _interopRequireDefault(_StarRating);
@@ -29568,7 +29584,19 @@ var Color = function Color(_ref) {
       _ref$onDelete = _ref.onDelete,
       onDelete = _ref$onDelete === undefined ? function (f) {
     return f;
-  } : _ref$onDelete;
+  } : _ref$onDelete,
+      _ref$onChange = _ref.onChange,
+      onChange = _ref$onChange === undefined ? function (f) {
+    return f;
+  } : _ref$onChange;
+
+  var colorName = (0, _react.useRef)();
+
+  function updateColorName(e) {
+    e.preventDefault();
+    onChange(colorName.value);
+  }
+
   return React.createElement(
     "div",
     { className: "color", style: { borderColor: color } },
@@ -29576,6 +29604,18 @@ var Color = function Color(_ref) {
       "h1",
       null,
       title
+    ),
+    React.createElement(
+      "form",
+      { onSubmit: updateColorName },
+      React.createElement("input", {
+        type: "text",
+        placeholder: "Write a new name here...",
+        ref: function ref(input) {
+          return colorName = input;
+        }
+      }),
+      React.createElement("input", { type: "submit", value: "Update" })
     ),
     React.createElement("input", { type: "button", value: "X", onClick: onDelete }),
     React.createElement(

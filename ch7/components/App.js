@@ -32,6 +32,7 @@ class App extends React.Component {
     this.addColor = this.addColor.bind(this);
     this.deleteColor = this.deleteColor.bind(this);
     this.rateColor = this.rateColor.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
   }
 
   addColor(title, color) {
@@ -62,6 +63,10 @@ class App extends React.Component {
     this.setState({ colors });
   }
 
+  updateTitle(id, title) {
+    console.log(id, title);
+  }
+
   render() {
     const { colors } = this.state;
     return (
@@ -71,6 +76,7 @@ class App extends React.Component {
           colors={colors}
           onRate={this.rateColor}
           onDelete={this.deleteColor}
+          onChange={this.updateTitle}
         />
       </div>
     );
